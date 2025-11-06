@@ -1,0 +1,511 @@
+/* ---------------------------
+ 🌗 Modern Sports App Theme 
+ Responsive with Smooth Theme Toggle
+--------------------------- */
+:root {
+  --bg: #f5f7fb; /* soft, comfortable page background */
+  --card: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --primary: #2563eb;
+  --primary-gradient: linear-gradient(135deg, #2563eb, #3b82f6);
+  --glass: rgba(37, 99, 235, 0.06);
+  --shadow: rgba(0, 0, 0, 0.05);
+  --border: rgba(0, 0, 0, 0.08);
+}
+
+.theme-dark {
+  --bg: #0b1120;
+  --card: #111827;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --primary: #60a5fa;
+  --primary-gradient: linear-gradient(135deg, #60a5fa, #3b82f6);
+  --glass: rgba(96, 165, 250, 0.08);
+  --shadow: rgba(0, 0, 0, 0.3);
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+/* ---------------------------
+ Base Reset
+--------------------------- */
+* {
+  box-sizing: border-box;
+  transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  flex: 1;
+  padding: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ---------------------------
+ Navbar
+--------------------------- */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 22px;
+  background: var(--card);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 10px var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--primary);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.brand:hover { transform: scale(1.05); }
+
+
+.nav-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+/* ---------------------------
+ Buttons
+--------------------------- */
+.btn {
+  background: var(--primary-gradient);
+  color: white !important;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--shadow);
+}
+.btn.small {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+/* Home page buttons fix */
+.card.big .btn {
+  color: #000 !important; /* black text for home buttons */
+  background: var(--glass);
+  border: 1px solid var(--border);
+  font-weight: 600;
+}
+.card.big .btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* ---------------------------
+ Theme Toggle Animation
+--------------------------- */
+.theme-toggle {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.theme-toggle svg {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.theme-toggle .sun {
+  color: #facc15;
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.theme-dark .theme-toggle .sun {
+  transform: rotate(180deg);
+  opacity: 0;
+}
+
+.theme-toggle .moon {
+  color: #93c5fd;
+  opacity: 0;
+  transform: rotate(-180deg);
+}
+
+.theme-dark .theme-toggle .moon {
+  transform: rotate(0deg);
+  opacity: 1;
+}
+
+/* ---------------------------
+ Pages / Cards
+--------------------------- */
+.page { padding: 20px; }
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.lead { color: var(--muted); }
+
+.grid { display: flex; flex-wrap: wrap; gap: 14px; }
+
+.card {
+  background: var(--card);
+  padding: 18px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px var(--shadow);
+  border: 1px solid var(--border);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px var(--glass);
+}
+
+.cards .card { width: 260px; }
+
+.card.big {
+  flex: 1;
+  text-align: center;
+  padding: 34px;
+  font-weight: 600;
+}
+
+/* ---------------------------
+ Match Cards
+--------------------------- */
+.match-card .row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.team { flex: 1; text-align: center; }
+.team-name { font-weight: 700; }
+.team-score { font-size: 1.3rem; margin-top: 6px; }
+.vs { width: 30px; text-align: center; color: var(--muted); }
+
+.meta { display: flex; gap: 8px; align-items: center; margin-top: 10px; font-size: 13px; color: var(--muted); }
+.badge { background: var(--glass); padding: 6px 10px; border-radius: 8px; font-weight: 600; text-transform: capitalize; }
+
+/* ---------------------------
+ Forms & Auth
+--------------------------- */
+.auth-card { max-width: 420px; margin: 40px auto; padding: 24px; border-radius: 14px; box-shadow: 0 10px 30px var(--shadow); }
+
+.form { display: flex; flex-direction: column; gap: 12px; }
+input {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  outline: none;
+  transition: border 0.3s, box-shadow 0.3s, background 0.3s;
+}
+input:focus { border-color: var(--primary); box-shadow: 0 0 8px var(--glass); }
+
+.error { color: #ef4444; font-size: 0.9rem; }
+
+/* ---------------------------
+ Misc
+--------------------------- */
+.footer { padding: 16px; text-align: center; color: var(--muted); border-top: 1px solid var(--border); }
+
+.loader { display: flex; align-items: center; gap: 12px; }
+.spinner {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 3px solid rgba(0,0,0,0.1);
+  border-top-color: var(--primary);
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.team-card {
+  text-align: center;
+  padding: 24px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+.team-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px var(--glass);
+}
+
+/* ---------------------------
+ Search & Controls
+--------------------------- */
+.search-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.search-box {
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background-color: var(--card);
+  color: var(--text);
+  outline: none;
+  width: 250px;
+  transition: border 0.3s, box-shadow 0.3s, background 0.3s;
+}
+.search-box:focus { border-color: var(--primary); box-shadow: 0 0 6px var(--glass); }
+
+.no-results { text-align: center; font-style: italic; color: var(--muted); width: 100%; }
+
+/* ---------------------------
+ Responsive Fixes
+--------------------------- */
+@media (max-width: 768px) {
+  .navbar { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .search-controls { flex-direction: column; align-items: stretch; gap: 12px; width: 100%; }
+  .search-box { width: 100%; }
+  .btn.small { width: 100%; text-align: center; }
+  .cards .card { width: 100%; }
+  .grid { flex-direction: column; }
+}
+/* ---------------------------
+ Force Link Colors - MUST BE AT BOTTOM
+--------------------------- */
+/* Reset all links */
+a {
+    text-decoration: none !important;
+    color: var(--text) !important;
+}
+
+/* Nav links specifically */
+.nav-links a,
+.nav-links a:visited,
+.nav-links a:active  {
+    color: var(--text);
+    font-weight: 500;
+    transition: color 0.3s ease;
+    margin-left: 12px;
+}
+
+.nav-links a:hover { 
+    color: var(--primary); 
+}
+
+/* Cards */
+.card {
+    background: var(--card);
+    padding: 18px;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px var(--shadow);
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.card.big {
+    flex: 1;
+    text-align: center;
+    padding: 34px;
+    font-weight: 600;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px var(--glass);
+}
+
+/* Global styles */
+* {
+    box-sizing: border-box;
+    transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+/* Minimal styling for inline login/register buttons */
+.link {
+  text-decoration: none !important;
+  background: none;       /* remove button background */
+  border: none;           /* remove border */
+  padding: 0;             /* remove padding */
+  color: var(--primary);  /* blue text */
+  font-weight: 500;       /* slightly bolder */
+  cursor: pointer;        /* pointer on hover */
+  text-decoration: underline; /* optional, looks like a link */
+  font-size: 0.95rem;     /* match surrounding text */
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: #3b82f6;         /* slightly lighter blue on hover */
+}
+/* --------------------------- 
+🏏 Live Scores Page - Smooth Modern Version
+--------------------------- */
+.match-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 22px;
+  padding: 18px 0;
+}
+
+/* Card Container */
+.match-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 4px 14px var(--shadow);
+  padding: 18px 20px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  backdrop-filter: blur(6px);
+}
+
+.match-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 22px var(--glass);
+  border-color: var(--border); /* ✅ No blue outline */
+}
+
+/* Team Title */
+.match-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 10px;
+  letter-spacing: 0.2px;
+  opacity: 0.95;
+}
+
+/* Header: League + Status */
+.match-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.match-league {
+  font-size: 0.83rem;
+  font-weight: 500;
+  color: var(--primary);
+  background: rgba(0, 0, 0, 0.04);
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.theme-dark .match-league {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.match-status {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* Teams + Scores */
+.match-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.team-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.team-name {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.team-score {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--primary);
+}
+
+.team-overs {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-left: 4px;
+}
+
+/* VS divider */
+.vs-divider {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin: 4px 0;
+  opacity: 0.85;
+}
+
+/* Footer */
+.match-footer {
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-top: 1px dashed var(--border);
+  padding-top: 6px;
+}
+
+/* Dark Theme Tweaks */
+.theme-dark .match-card {
+  background: rgba(22, 28, 44, 0.92);
+}
+
+.theme-dark .match-title {
+  color: #f2f2f2;
+  opacity: 0.95;
+}
