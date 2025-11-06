@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import API from "../api";
+import API from "../api"; // ✅ Use centralized API instance
 import Loader from "../components/Loader";
 
 export default function Teams() {
@@ -11,7 +11,7 @@ export default function Teams() {
     const fetchTeams = async () => {
       try {
         setLoading(true);
-        const { data } = await API.get("/matches");
+        const { data } = await API.get("/matches"); // ✅ Railway backend
         const uniq = new Set();
         data.forEach((m) => {
           if (m.teamA) uniq.add(m.teamA);
@@ -19,7 +19,7 @@ export default function Teams() {
         });
         setTeams(Array.from(uniq).slice(0, 100));
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching teams:", err);
       } finally {
         setLoading(false);
       }
@@ -30,10 +30,19 @@ export default function Teams() {
   return (
     <div className="page">
       <h1>Teams</h1>
-      {loading ? <Loader /> : (
+      {loading ? (
+        <Loader />
+      ) : (
         <div className="grid cards">
-          {teams.length === 0 ? <div className="card muted">No teams found.</div> :
-            teams.map((t) => <div className="card team-card" key={t}>{t}</div>)}
+          {teams.length === 0 ? (
+            <div className="card muted">No teams found.</div>
+          ) : (
+            teams.map((t) => (
+              <div className="card team-card" key={t}>
+                {t}
+              </div>
+            ))
+          )}
         </div>
       )}
     </div>

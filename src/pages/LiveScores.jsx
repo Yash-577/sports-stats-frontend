@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
+import API from "../api"; // ✅ Use the centralized API instance
 
 const LiveScores = () => {
   const [matches, setMatches] = useState([]);
@@ -11,15 +11,13 @@ const LiveScores = () => {
   // Fetch matches from backend (cached)
   const fetchMatches = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const { data } = await axios.get("/api/matches", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      setLoading(true);
+      const { data } = await API.get("/matches"); // ✅ Railway backend
       const sorted = data.sort((a, b) => new Date(b.date) - new Date(a.date));
       setMatches(sorted);
-      setLoading(false);
     } catch (error) {
       console.error(error);
+    } finally {
       setLoading(false);
     }
   };
@@ -28,10 +26,7 @@ const LiveScores = () => {
   const fetchLive = async (showNotification = false) => {
     try {
       if (showNotification) setRefreshing(true);
-      const token = localStorage.getItem("token");
-      const { data } = await axios.get("/api/matches/live", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const { data } = await API.get("/matches/live"); // ✅ Railway backend
       const sorted = data.matches.sort((a, b) => new Date(b.date) - new Date(a.date));
       setMatches(sorted);
       if (showNotification) {
@@ -52,9 +47,7 @@ const LiveScores = () => {
     fetchMatches();
     fetchLive(); // Initial fetch (silent)
 
-    // Auto-refresh every 30 seconds (silent)
-    const interval = setInterval(() => fetchLive(), 30000);
-
+    const interval = setInterval(() => fetchLive(), 30000); // Auto-refresh every 30s
     return () => clearInterval(interval);
   }, []);
 
