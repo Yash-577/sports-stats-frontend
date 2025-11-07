@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://sports-stats-backend-production.up.railway.app",
+  baseURL: "https://sports-stats-backend-production.up.railway.app/api",
   timeout: 10000,
 });
 
