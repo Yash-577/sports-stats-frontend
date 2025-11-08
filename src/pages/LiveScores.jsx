@@ -148,7 +148,7 @@ const MatchCard = ({ m }) => {
     if (!teamName) return "N/A";
     return (
       teamShortNames[teamName] ||
-      teamName.split(" ").pop().slice(0, 3).toUpperCase()
+     teamName.slice(0, 3).toUpperCase()  // ✅ First 3 letters
     );
   };
 
