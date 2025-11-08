@@ -156,7 +156,7 @@ const MatchCard = ({ m }) => {
   const shortB = getShortName(m.teamB);
   const league = leagueShortNames[m.league] || m.league || "Unknown League";
 
-  const formattedScore = m.scoreA
+const formattedScore = m.scoreA !== null && m.scoreA !== undefined
     ? `${shortA} ${m.scoreA}${m.wicketsA != null ? `-${m.wicketsA}` : ""}${
         m.oversA ? ` (${m.oversA} ov)` : ""
       } | ${shortB} ${m.scoreB != null ? m.scoreB : "-"}${
