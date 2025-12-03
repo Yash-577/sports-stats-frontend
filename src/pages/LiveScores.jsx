@@ -51,20 +51,32 @@ const LiveScores = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Filter matches based on user search
-  const filteredMatches = [...matches]
-    .filter((m) => {
-      const searchTerm = search.toLowerCase();
-      return (
-        m.teamA.toLowerCase().includes(searchTerm) ||
-        m.teamB.toLowerCase().includes(searchTerm) ||
-        (m.league && m.league.toLowerCase().includes(searchTerm))
-      );
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+// Filter matches based on user search
+const filteredMatches = [...matches]
+  .filter((m) => {
+    const searchTerm = search.toLowerCase().trim(); // Add .trim() to remove spaces
+    
+    if (!searchTerm) return true; // Show all if search is empty
+    
+    // Split search by "vs" to handle "Australia vs India" format
+    const searchParts = searchTerm.split(/\s+vs\s+/i).map(s => s.trim()).filter(s => s);
+    
+    return (
+      // Original checks (work with single team names)
+      m.teamA.toLowerCase().includes(searchTerm) ||
+      m.teamB.toLowerCase().includes(searchTerm) ||
+      (m.league && m.league.toLowerCase().includes(searchTerm)) ||
+      // New checks for "vs" format - match if any part matches either team
+      (searchParts.length > 1 && 
+        searchParts.some(part => 
+          m.teamA.toLowerCase().includes(part) || 
+          m.teamB.toLowerCase().includes(part)
+        ))
+    );
+  })
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  if (loading) return <p className="page">Loading matches...</p>;
-
+if (loading) return <p className="page">Loading matches...</p>;
   return (
     <div className="page">
       <div className="page-header">
