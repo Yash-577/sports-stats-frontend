@@ -12,7 +12,7 @@ const LiveScores = () => {
   const fetchMatches = async () => {
     try {
       setLoading(true);
-      const { data } = await API.get("/matches"); // ✅ Railway backend
+      const { data } = await API.get("/api/matches"); // ✅ Fixed: Added /api prefix
       const sorted = data.sort((a, b) => new Date(b.date) - new Date(a.date));
       setMatches(sorted);
     } catch (error) {
@@ -26,7 +26,7 @@ const LiveScores = () => {
   const fetchLive = async (showNotification = false) => {
     try {
       if (showNotification) setRefreshing(true);
-      const { data } = await API.get("/matches/live"); // ✅ Railway backend
+      const { data } = await API.get("/api/matches/live"); // ✅ Fixed: Added /api prefix
       const sorted = data.matches.sort((a, b) => new Date(b.date) - new Date(a.date));
       setMatches(sorted);
       if (showNotification) {
@@ -51,32 +51,33 @@ const LiveScores = () => {
     return () => clearInterval(interval);
   }, []);
 
-// Filter matches based on user search
-const filteredMatches = [...matches]
-  .filter((m) => {
-    const searchTerm = search.toLowerCase().trim(); // Add .trim() to remove spaces
-    
-    if (!searchTerm) return true; // Show all if search is empty
-    
-    // Split search by "vs" to handle "Australia vs India" format
-    const searchParts = searchTerm.split(/\s+vs\s+/i).map(s => s.trim()).filter(s => s);
-    
-    return (
-      // Original checks (work with single team names)
-      m.teamA.toLowerCase().includes(searchTerm) ||
-      m.teamB.toLowerCase().includes(searchTerm) ||
-      (m.league && m.league.toLowerCase().includes(searchTerm)) ||
-      // New checks for "vs" format - match if any part matches either team
-      (searchParts.length > 1 && 
-        searchParts.some(part => 
-          m.teamA.toLowerCase().includes(part) || 
-          m.teamB.toLowerCase().includes(part)
-        ))
-    );
-  })
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  // Filter matches based on user search
+  const filteredMatches = [...matches]
+    .filter((m) => {
+      const searchTerm = search.toLowerCase().trim(); // Add .trim() to remove spaces
+      
+      if (!searchTerm) return true; // Show all if search is empty
+      
+      // Split search by "vs" to handle "Australia vs India" format
+      const searchParts = searchTerm.split(/\s+vs\s+/i).map(s => s.trim()).filter(s => s);
+      
+      return (
+        // Original checks (work with single team names)
+        m.teamA.toLowerCase().includes(searchTerm) ||
+        m.teamB.toLowerCase().includes(searchTerm) ||
+        (m.league && m.league.toLowerCase().includes(searchTerm)) ||
+        // New checks for "vs" format - match if any part matches either team
+        (searchParts.length > 1 && 
+          searchParts.some(part => 
+            m.teamA.toLowerCase().includes(part) || 
+            m.teamB.toLowerCase().includes(part)
+          ))
+      );
+    })
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-if (loading) return <p className="page">Loading matches...</p>;
+  if (loading) return <p className="page">Loading matches...</p>;
+  
   return (
     <div className="page">
       <div className="page-header">
@@ -160,7 +161,7 @@ const MatchCard = ({ m }) => {
     if (!teamName) return "N/A";
     return (
       teamShortNames[teamName] ||
-     teamName.slice(0, 3).toUpperCase()  // ✅ First 3 letters
+      teamName.slice(0, 3).toUpperCase()  // ✅ First 3 letters
     );
   };
 
@@ -168,7 +169,7 @@ const MatchCard = ({ m }) => {
   const shortB = getShortName(m.teamB);
   const league = leagueShortNames[m.league] || m.league || "Unknown League";
 
-const formattedScore = m.scoreA !== null && m.scoreA !== undefined
+  const formattedScore = m.scoreA !== null && m.scoreA !== undefined
     ? `${shortA} ${m.scoreA}${m.wicketsA != null ? `-${m.wicketsA}` : ""}${
         m.oversA ? ` (${m.oversA} ov)` : ""
       } | ${shortB} ${m.scoreB != null ? m.scoreB : "-"}${
