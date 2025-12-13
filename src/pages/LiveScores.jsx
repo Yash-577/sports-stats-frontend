@@ -12,7 +12,7 @@ const LiveScores = () => {
   const fetchMatches = async () => {
     try {
       setLoading(true);
-      const { data } = await API.get("/api/matches"); // ✅ Fixed: Added /api prefix
+      const { data } = await API.get("/matches"); // ✅ Fixed: Added /api prefix
       const sorted = data.sort((a, b) => new Date(b.date) - new Date(a.date));
       setMatches(sorted);
     } catch (error) {
@@ -26,7 +26,7 @@ const LiveScores = () => {
   const fetchLive = async (showNotification = false) => {
     try {
       if (showNotification) setRefreshing(true);
-      const { data } = await API.get("/api/matches/live"); // ✅ Fixed: Added /api prefix
+      const { data } = await API.get("/matches/live"); // ✅ Fixed: Added /api prefix
       const sorted = data.matches.sort((a, b) => new Date(b.date) - new Date(a.date));
       setMatches(sorted);
       if (showNotification) {
