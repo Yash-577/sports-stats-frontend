@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://sports-stats-backend-cp6t.vercel.app/",
+  baseURL: "https://sports-stats-backend-cp6t.vercel.app/api",
   timeout: 10000,
 });
 
